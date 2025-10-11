@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Johnny — Personal Portfolio</title>
+  <meta name="description" content="Personal portfolio with modern glass design, interactive UI and responsive layout." />
+  <style>
+    :root{
+      --bg: linear-gradient(135deg,#e6e0d4 0%, #f7efe6 100%);
+      --glass: rgba(255,255,255,0.55);
+      --glass-2: rgba(255,255,255,0.12);
+      --accent:  #3f3f76;
+      --muted: #6b6b6b;
+      --radius: 14px;
+      --max-width: 1100px;
+      --glass-border: rgba(255,255,255,0.6);
+    }
+    [data-theme='dark']{
+      --bg: linear-gradient(135deg,#0f1020 0%, #111227 100%);
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(255,255,255,0.04);
+      --accent: #7bd389;
+      --muted: #9aa0b4;
+      --glass-border: rgba(255,255,255,0.06);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0;
+      min-height:100%;
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: var(--bg);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      color: var(--accent);
+      display:flex;
+      justify-content:center;
+      padding:3rem 1rem;
+    }
+
+    .wrap{
+      width:100%;
+      max-width:var(--max-width);
+    }
+
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:2rem;
+    }
+
+    nav{display:flex;gap:1rem;align-items:center}
+    .logo{
+      display:flex;flex-direction:column;gap:2px;font-weight:700;letter-spacing:0.2px
+    }
+    .logo small{font-weight:400;color:var(--muted);font-size:.8rem}
+
+    .nav-links a{color:var(--muted);text-decoration:none;padding:.5rem .8rem;border-radius:10px;transition:all .2s}
+    .nav-links a:hover{background:var(--glass-2);color:var(--accent)}
+
+    .controls{display:flex;align-items:center;gap:.6rem}
+    .btn{
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      padding:.5rem .8rem;border-radius:12px;cursor:pointer;
+      backdrop-filter: blur(8px);
+      transition:transform .15s, box-shadow .15s;
+    }
+    .btn:active{transform:translateY(1px)}
+
+    /* Hero */
+    .hero{
+      display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:center;margin-bottom:1.5rem;
+    }
+    .card-hero{
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      border-radius:var(--radius);
+      padding:2rem;backdrop-filter: blur(10px);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.06);
+    }
+    h1{margin:0;font-size:1.85rem}
+    .intro{color:var(--muted);margin-top:.6rem;line-height:1.5}
+    .typing{color:var(--accent);font-weight:600}
+
+    /* profile card */
+    .profile{
+      display:flex;flex-direction:column;align-items:center;gap:1rem;padding:1.2rem;text-align:center;
+    }
+    .avatar{
+      width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,#9ab3ff,#a0ffd6);display:grid;place-items:center;font-weight:700;color:white;font-size:1.2rem;border:3px solid rgba(255,255,255,0.6)
+    }
+    .profile small{color:var(--muted)}
+
+    /* Cards grid */
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+    @media (max-width:900px){.hero{grid-template-columns:1fr;}.grid{grid-template-columns:repeat(2,1fr)}.profile{flex-direction:row;gap:1rem;padding:1rem}}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}}
+
+    .glass-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0.12));
+      border-radius:12px;padding:1rem;border:1px solid var(--glass-border);backdrop-filter: blur(8px);
+      transition:transform .25s, box-shadow .25s;
+    }
+    .glass-card:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+
+    .skills .bar{height:10px;border-radius:999px;background:linear-gradient(90deg,var(--glass-2),var(--glass));overflow:hidden}
+    .skills .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent) 0%, #6bd3c5 100%);width:0;transition:width .8s ease}
+
+    /* Experience list */
+    .list{display:flex;flex-direction:column;gap:.6rem}
+    .list-item{display:flex;justify-content:space-between;align-items:center;padding:.6rem;border-radius:8px;background:rgba(255,255,255,0.03);border:1px solid var(--glass-border)}
+
+    /* Contact */
+    form{display:flex;flex-direction:column;gap:.6rem}
+    input,textarea{padding:.8rem;border-radius:8px;border:1px solid rgba(0,0,0,0.06);resize:vertical}
+    textarea{min-height:90px}
+
+    /* Footer */
+    footer{margin-top:1.5rem;text-align:center;color:var(--muted)}
+
+    /* small utilities */
+    .chip{display:inline-block;padding:.25rem .6rem;border-radius:999px;background:rgba(0,0,0,0.04);font-size:.85rem}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:none;place-items:center;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.45));}
+    .modal.open{display:grid}
+    .modal-card{width:90%;max-width:720px;background:var(--glass);padding:1.2rem;border-radius:12px;border:1px solid var(--glass-border);}
+
+    /* toast */
+    .toast{position:fixed;right:1rem;bottom:1rem;background:var(--accent);color:white;padding:.6rem 1rem;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.2);display:none}
+    .toast.show{display:inline-block}
+
+    /* accessibility focus */
+    a:focus,button:focus,input:focus,select:focus{outline:3px solid rgba(123,211,137,0.18);outline-offset:2px}
+  </style>
+</head>
+<body>
+  <div class="wrap" id="app">
+    <header>
+      <div class="logo">
+        <div style="font-size:1.05rem">Johnny Chang</div>
+        <small>Developer • Front‑end</small>
+      </div>
+
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#work">Work</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="controls">
+        <button class="btn" id="themeToggle" aria-pressed="false" title="Toggle theme">🌗</button>
+        <button class="btn" id="resumeBtn">Resume</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="card-hero">
+          <h1>Hello, I’m <span class="typing" id="typed">Johnny</span></h1>
+          <p class="intro">I design modern, accessible web experiences with attention to detail — I build responsive interfaces, delightful micro‑interactions and clean code.</p>
+
+          <p style="margin-top:1rem"><a class="btn" href="#contact">Hire me</a> <span style="margin-left:1rem" class="chip">Open to work</span></p>
+        </div>
+
+        <aside class="card-hero profile">
+          <div class="avatar">JC</div>
+          <div>
+            <div style="font-weight:700">Johnny Chang</div>
+            <small>Front-end Developer</small>
+            <div style="margin-top:.6rem"><button class="btn" id="copyEmail">Copy Email</button></div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="about" class="grid">
+        <div class="glass-card">
+          <h3>About me</h3>
+          <p class="muted">I’m a web developer focused on building thoughtful, accessible interfaces using modern HTML, CSS and JavaScript. I enjoy tiny animations, performance and clear UX.</p>
+        </div>
+
+        <div class="glass-card">
+          <h3>Skills</h3>
+          <div class="skills">
+            <div style="display:flex;justify-content:space-between"><small>HTML / CSS</small><small>90%</small></div>
+            <div class="bar" aria-hidden><i data-width="90"></i></div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:.5rem"><small>JavaScript</small><small>85%</small></div>
+            <div class="bar" aria-hidden><i data-width="85"></i></div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:.5rem"><small>React / Tools</small><small>75%</small></div>
+            <div class="bar" aria-hidden><i data-width="75"></i></div>
+          </div>
+        </div>
+
+        <div class="glass-card">
+          <h3>Experience</h3>
+          <div class="list">
+            <div class="list-item"><div>UI Developer — Hobby</div><div class="muted">2025-Now</div></div>
+            <div class="list-item"><div>Frontend — Beta</div><div class="muted">2025</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="work" style="margin-top:1rem">
+        <div class="glass-card">
+          <h3>Selected projects</h3>
+          <div style="display:flex;flex-direction:column;gap:.6rem;margin-top:.6rem">
+            <article class="list-item" tabindex="0">
+              <div>
+                <strong>Interactive Todo</strong>
+                <div style="color:var(--muted);font-size:.9rem">A modern todo app with animations & accessibility</div>
+              </div>
+              <a href="todo.html">
+              <div><button class="btn" data-live demo>Open</button></div>
+              </a>
+            </article>
+
+            <article class="list-item" tabindex="0">
+              <div>
+                <strong>Portfolio site</strong>
+                <div style="color:var(--muted);font-size:.9rem">Responsive portfolio with CMS integration</div>
+              </div>
+              <div><button class="btn">Open</button></div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" style="margin-top:1rem">
+        <div class="glass-card">
+          <h3>Contact</h3>
+          <form id="contactForm" action="https://formspree.io/f/mwprrbwa" method="POST">
+            <input id="name" name="name" placeholder="Your name" required />
+            <input id="email" type="email" name="email" placeholder="Your email" required />
+            <textarea id="msg" name="message" placeholder="Message" required></textarea>
+            <div style="display:flex;gap:.5rem;align-items:center">
+            <button class="btn" type="submit">Send message</button>
+            <small id="formMsg" style="color:var(--muted)"></small>
+          </div>
+        </form>
+        </div>
+      </section>
+
+      <footer>
+        <small>Made with ❤️ — Johnny Chang</small>
+        <h5>❤️ = Prompt engineering</h5>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Resume modal -->
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <h3>Resume — Johnny Chang</h3>
+      <p>Brief resume content or link to PDF can go here.</p>
+      <div style="display:flex;gap:.6rem;justify-content:flex-end;margin-top:1rem">
+        <button class="btn" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Message sent ✓</div>
+
+  <script>
+    // Simple interactions: theme toggle, typing, skill bars, contact form, resume modal
+    const root = document.documentElement;
+    const themeToggle = document.getElementById('themeToggle');
+    const typedEl = document.getElementById('typed');
+    const bars = document.querySelectorAll('.skills .bar > i');
+    const contactForm = document.getElementById('contactForm');
+    const toast = document.getElementById('toast');
+    const resumeBtn = document.getElementById('resumeBtn');
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('closeModal');
+    const copyEmail = document.getElementById('copyEmail');
+
+    // Load theme from localStorage
+    const savedTheme = localStorage.getItem('theme');
+    if(savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
+
+    themeToggle.addEventListener('click', ()=>{
+      const cur = document.documentElement.getAttribute('data-theme');
+      const next = cur === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeToggle.setAttribute('aria-pressed', next === 'dark');
+    });
+
+    // typing effect
+    const phrases = ['a Front-end Developer','a UI enthusiast','Johnny'];
+    let pIdx = 0, i = 0, forward = true;
+    function tick(){
+      const txt = phrases[pIdx];
+      if(forward){
+        i++;
+        typedEl.textContent = txt.slice(0,i);
+        if(i === txt.length){forward=false; setTimeout(tick,1000);return}
+      } else {
+        i--;
+        typedEl.textContent = txt.slice(0,i);
+        if(i === 0){forward=true; pIdx=(pIdx+1)%phrases.length}
+      }
+      setTimeout(tick, 90);
+    }
+    tick();
+
+    // animate skills after load
+    window.addEventListener('load', ()=>{
+      bars.forEach(b => {
+        const w = b.dataset.width;
+        requestAnimationFrame(()=>{b.style.width = w + '%';});
+      });
+    });
+
+    // contact form (fake send)
+contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+    }).then(response => {
+        if(response.ok){
+            showToast('Message sent ✓');
+            contactForm.reset();
+        } else {
+            showToast('Failed to send, try again.');
+        }
+    }).catch(() => showToast('Failed to send, try again.'));
+});
+
+    function showToast(text){
+      toast.textContent = text;
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2500);
+    }
+
+    // modal
+    resumeBtn.addEventListener('click', ()=>{modal.classList.add('open')});
+    closeModal.addEventListener('click', ()=>{modal.classList.remove('open')});
+    modal.addEventListener('click', (e)=>{if(e.target===modal) modal.classList.remove('open')});
+
+    // copy email
+    copyEmail.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText('johnnydinhchang@gmail.com'); showToast('Email copied'); }
+      catch(e){ showToast('Copy not supported'); }
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('nav a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', (e)=>{
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth',block:'start'});
+      })
+    });
+
+    // small accessibility: focus outlines for keyboard users
+    (function(){
+      const handleFirstTab = (e)=>{ if(e.key === 'Tab'){ document.body.classList.add('user-tabbing'); window.removeEventListener('keydown', handleFirstTab); }};
+      window.addEventListener('keydown', handleFirstTab);
+    })();
+  </script>
+</body>
+</html>
