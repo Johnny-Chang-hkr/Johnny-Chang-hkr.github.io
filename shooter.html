@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🚀 Space Shooter</title>
+  <link rel="stylesheet" href="shooter.css" />
+</head>
+<body>
+<div id="homeScreen">
+    <h1>🚀 Space Shooter</h1>
+    <h3>Choose Your Ship</h3>
+    <div id="playerSelect">
+        <button class="ship-btn" data-ship="🚀">🚀</button>
+        <button class="ship-btn" data-ship="🛸">🛸</button>
+        <button class="ship-btn" data-ship="🛰️">🛰️</button>
+    </div>
+    <button id="startBtn">Play Game</button>
+</div>
+
+  <div id="gameUI" class="hidden">
+    <div id="topBar">
+      <h2>Score: <span id="score">0</span></h2>
+      <div id="controls">
+        <button id="restartBtn">🔄 Restart</button>
+        <button id="pauseBtn">⏸ Pause</button>
+        <a href="index.html">
+        <button id="homeBtn">🏠 Home</button>
+        </a>
+      </div>
+    </div>
+
+    <div id="gameArea">
+      <div id="player"></div>
+    </div>
+  </div>
+
+  <script src="shooter.js"></script>
+</body>
+</html>
