@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #050505 30%, #000 90%);
+  color: white;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ---------- Home Screen ---------- */
+#homeScreen {
+  margin-top: 150px;
+}
+
+#startBtn {
+  font-size: 1.2rem;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #00aaff, #0077ff);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+#startBtn:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- Game Screen ---------- */
+#gameUI {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#topBar {
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px auto;
+}
+#controls {
+  display: flex;
+  justify-content: center; /* center all buttons horizontally */
+  gap: 10px;               /* space between buttons */
+  margin: 10px 0;
+}
+#controls button {
+  background: #0077ff;
+  color: white;
+  border: none;
+  padding: 8px 0;       /* top/bottom padding */
+  width: 100px;          /* same width for all buttons */
+  border-radius: 6px;
+  margin-left: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: center;    /* center the emoji/text inside */
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+#controls button:hover {
+  background: #00aaff;
+  transform: scale(1.1);
+}
+
+#gameArea {
+  position: relative;
+  width: 400px;
+  height: 600px;
+  background: linear-gradient(180deg, #000020, #001133);
+  border: 2px solid #333;
+  margin: 10px auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00aaff;
+}
+
+#player, .enemy, .bullet {
+  position: absolute;
+  font-size: 2rem;
+  text-shadow: 0 0 10px white;
+  user-select: none;
+}
+
+#player {
+  position: absolute;
+  bottom: 20px;
+  left: 180px;
+  font-size: 2rem;
+  text-shadow: 0 0 10px cyan;
+}
+
+#playerSelect {
+  margin: 20px 0;
+}
+
+.ship-btn {
+  font-size: 4.2rem;
+  margin: 5px;
+  border: 2px solid #00aaff;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ship-btn:hover {
+  transform: scale(1.2);
+  background: #00aaff22;
+}
+
+.ship-btn.selected {
+  background: #00aaff44;
+  border-color: #00ffff;
+  box-shadow: 0 0 10px #00ffff;
+}
