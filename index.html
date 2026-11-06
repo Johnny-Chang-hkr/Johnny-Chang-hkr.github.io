@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Johnny — Personal Portfolio</title>
-  <meta name="description" content="Personal portfolio with modern glass design, interactive UI and responsive layout." />
+  <title>Johnny Chang — Software Developer</title>
+  <meta name="description" content="Johnny Chang is a software developer building thoughtful, accessible web experiences." />
   <style>
     :root{
       --bg: linear-gradient(135deg,#e6e0d4 0%, #f7efe6 100%);
@@ -137,6 +137,162 @@
 
     /* accessibility focus */
     a:focus,button:focus,input:focus,select:focus{outline:3px solid rgba(123,211,137,0.18);outline-offset:2px}
+
+    :root{
+      --bg:linear-gradient(145deg,#f4f3ee 0%,#e8edf2 100%);
+      --glass:rgba(255,255,255,.82);
+      --glass-2:rgba(79,98,125,.08);
+      --accent:#172b3a;
+      --muted:#60717d;
+      --glass-border:rgba(255,255,255,.9);
+      --radius:22px;
+      --max-width:1120px;
+      --highlight:#b8f36b;
+      --shadow:0 18px 50px rgba(27,45,59,.08);
+    }
+    [data-theme='dark']{
+      --bg:linear-gradient(145deg,#111a20 0%,#17242b 100%);
+      --glass:rgba(31,46,54,.88);
+      --glass-2:rgba(255,255,255,.06);
+      --accent:#f0f5f2;
+      --muted:#a4b4bb;
+      --glass-border:rgba(255,255,255,.09);
+      --highlight:#b8f36b;
+      --shadow:0 18px 50px rgba(0,0,0,.2);
+    }
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;
+      padding:1.5rem 1.25rem 3rem;
+      background:var(--bg);
+      color:var(--accent);
+    }
+    .wrap{max-width:var(--max-width)}
+    header{
+      position:sticky;
+      top:1rem;
+      z-index:5;
+      padding:.8rem 1rem;
+      margin-bottom:2rem;
+      border:1px solid var(--glass-border);
+      border-radius:18px;
+      background:var(--glass);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+    .logo{gap:.15rem}
+    .logo small{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+    .nav-links a{font-size:.9rem;font-weight:600}
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:.4rem;
+      color:var(--accent);
+      font:inherit;
+      font-size:.9rem;
+      font-weight:650;
+      text-decoration:none;
+      padding:.68rem 1rem;
+      border:1px solid var(--glass-border);
+      border-radius:12px;
+      background:var(--glass);
+      box-shadow:0 5px 16px rgba(27,45,59,.06);
+    }
+    .btn:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(27,45,59,.1)}
+    .controls .btn:first-child{width:42px;height:42px;padding:.5rem}
+    .hero{grid-template-columns:minmax(0,1.5fr) minmax(240px,.7fr);gap:1.2rem;margin-bottom:1.2rem}
+    .card-hero,.glass-card{
+      background:var(--glass);
+      border:1px solid var(--glass-border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    .glass-card{background:var(--glass)}
+    .card-hero{padding:clamp(1.5rem,5vw,3.5rem)}
+    .card-hero:first-child{position:relative;overflow:hidden}
+    .card-hero:first-child:after{
+      position:absolute;
+      content:"";
+      width:210px;
+      height:210px;
+      right:-85px;
+      bottom:-120px;
+      border-radius:50%;
+      background:var(--highlight);
+      opacity:.22;
+      filter:blur(2px);
+    }
+    h1{max-width:680px;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;letter-spacing:-.055em}
+    .typing{color:#4d7b3a}
+    [data-theme='dark'] .typing{color:var(--highlight)}
+    .intro{max-width:620px;font-size:1.05rem;line-height:1.75}
+    .profile{justify-content:center;min-height:250px}
+    .avatar{
+      width:100px;height:100px;
+      color:#172b3a;
+      background:linear-gradient(145deg,#b8f36b,#85c8c0);
+      border:5px solid var(--glass);
+      box-shadow:0 10px 24px rgba(84,130,79,.2);
+    }
+    .grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+    .glass-card{padding:1.35rem}
+    .glass-card h3{margin:0 0 .75rem;font-size:1.15rem;letter-spacing:-.02em}
+    .muted,.list-item .muted{color:var(--muted)}
+    .glass-card p{line-height:1.7}
+    .skills .bar{margin-top:.35rem;background:var(--glass-2)}
+    .skills .bar>i{background:linear-gradient(90deg,#78a958,var(--highlight))}
+    .list-item{
+      gap:1rem;
+      padding:.85rem 1rem;
+      border:1px solid var(--glass-border);
+      border-radius:14px;
+      background:var(--glass-2);
+    }
+    #work .glass-card{padding:clamp(1.2rem,4vw,2rem)}
+    #work .list-item strong{display:block;margin-bottom:.2rem}
+    #contact .glass-card{max-width:760px;margin:auto;padding:clamp(1.2rem,4vw,2rem)}
+    #contact form{display:grid;grid-template-columns:1fr 1fr}
+    #contact textarea,#contact form>div{grid-column:1/-1}
+    #contact input,#contact textarea{
+      width:100%;
+      color:var(--accent);
+      font:inherit;
+      border:1px solid var(--glass-border);
+      background:var(--glass-2);
+    }
+    #contact input::placeholder,#contact textarea::placeholder{color:var(--muted)}
+    .chip{color:var(--accent);background:var(--glass-2)}
+    footer{padding:1.5rem 0}
+    footer h5{margin:.35rem 0;font-weight:500}
+    .modal{z-index:10;backdrop-filter:blur(8px)}
+    .modal-card{color:var(--accent);box-shadow:var(--shadow)}
+    .toast{z-index:20}
+    a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
+      outline:3px solid #78a958;
+      outline-offset:3px;
+    }
+    @media(max-width:760px){
+      body{padding:1rem .8rem 2rem}
+      header{position:static;flex-wrap:wrap}
+      .hero{grid-template-columns:1fr}
+      .profile{flex-direction:row}
+      .grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:560px){
+      header{gap:.75rem}
+      nav{order:3;width:100%;justify-content:space-between}
+      .nav-links a{padding:.45rem .35rem;font-size:.82rem}
+      .controls{margin-left:auto}
+      .grid{grid-template-columns:1fr}
+      #contact form{grid-template-columns:1fr}
+      #contact textarea,#contact form>div{grid-column:auto}
+      .list-item{gap:.6rem}
+    }
+    @media(prefers-reduced-motion:reduce){
+      *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}
+    }
   </style>
 </head>
 <body>
@@ -144,7 +300,7 @@
     <header>
       <div class="logo">
         <div style="font-size:1.05rem">Johnny Chang</div>
-        <small>Developer • Front‑end</small>
+        <small>Software Developer</small>
       </div>
 
       <nav class="nav-links" aria-label="Main Navigation">
@@ -163,8 +319,8 @@
     <main>
       <section class="hero">
         <div class="card-hero">
-          <h1>Hello, I’m <span class="typing" id="typed">Johnny</span></h1>
-          <p class="intro">I design modern, accessible web experiences with attention to detail — I build responsive interfaces, delightful micro‑interactions and clean code.</p>
+          <h1>Software Developer</h1>
+          <p class="intro">I’m Johnny Chang. I build modern, accessible web experiences with thoughtful details, responsive interfaces and clean code.</p>
 
           <p style="margin-top:1rem"><a class="btn" href="#contact">Hire me</a> <span style="margin-left:1rem" class="chip">Open to work</span></p>
         </div>
@@ -173,14 +329,14 @@
           <div class="avatar">JC</div>
           <div>
             <div style="font-weight:700">Johnny Chang</div>
-            <small>Front-end Developer</small>
+            <small>Software Developer</small>
             <div style="margin-top:.6rem"><button class="btn" id="copyEmail">Copy Email</button></div>
           </div>
         </aside>
       </section>
 
       <section id="about" class="grid">
-        <div class="glass-card">
+        <div class="glass-card" id="skills">
           <h3>About me</h3>
           <p class="muted">I’m a web developer focused on building thoughtful, accessible interfaces using modern HTML, CSS and JavaScript. I enjoy tiny animations, performance and clear UX.</p>
         </div>
@@ -203,7 +359,7 @@
           <h3>Experience</h3>
           <div class="list">
             <div class="list-item"><div>UI Developer — Hobby</div><div class="muted">2025-Now</div></div>
-            <div class="list-item"><div>Frontend — Beta</div><div class="muted">2025</div></div>
+            <div class="list-item"><div>Software Developer — Beta</div><div class="muted">2025</div></div>
           </div>
         </div>
       </section>
@@ -217,9 +373,7 @@
                 <strong>Interactive Todo</strong>
                 <div style="color:var(--muted);font-size:.9rem">A modern todo app with animations & accessibility</div>
               </div>
-              <a href="todo.html">
-              <div><button class="btn" data-live demo>Open</button></div>
-              </a>
+              <a class="btn" href="todo.html">Open ↗</a>
             </article>
 
             <article class="list-item" tabindex="0">
@@ -227,9 +381,7 @@
                 <strong>Geo Wiz</strong>
                 <div style="color:var(--muted);font-size:.9rem">An interactive geography game</div>
               </div>
-              <a href="https://johnny-chang-hkr.github.io/GeoWiz.github.io/">
-              <div><button class="btn">Open</button></div>
-              </a>
+              <a class="btn" href="https://johnny-chang-hkr.github.io/GeoWiz.github.io/">Open ↗</a>
             </article>
             
             <article class="list-item" tabindex="0">
@@ -237,9 +389,7 @@
                 <strong>Space Shooter</strong>
                 <div style="color:var(--muted);font-size:.9rem">Destroying space threats</div>
               </div>
-              <a href="shooter.html">
-              <div><button class="btn">Open</button></div>
-              </a>
+              <a class="btn" href="shooter.html">Open ↗</a>
             </article>
 
             <article class="list-item" tabindex="0">
@@ -247,9 +397,7 @@
                 <strong>Thinkboard MERN</strong>
                 <div style="color:var(--muted);font-size:.9rem">Basic thinkboard application (need time for render to load) </div>
               </div>
-              <a href="https://mern-thinkboard-zopz.onrender.com">
-              <div><button class="btn">Open</button></div>
-              </a>
+              <a class="btn" href="https://mern-thinkboard-zopz.onrender.com">Open ↗</a>
             </article>
 
              <article class="list-item" tabindex="0">
@@ -257,9 +405,7 @@
                 <strong>Reviews of Movies</strong>
                 <div style="color:var(--muted);font-size:.9rem">Simple web application to share reviews</div>
               </div>
-              <a href="https://moviereviews-9h5m.onrender.com">
-              <div><button class="btn">Open</button></div>
-              </a>
+              <a class="btn" href="https://moviereviews-9h5m.onrender.com">Open ↗</a>
             </article>
 
             <article class="list-item" tabindex="0">
@@ -267,9 +413,7 @@
                 <strong>Notes with login</strong>
                 <div style="color:var(--muted);font-size:.9rem">Simple web application to store notes (MERN Fullstack)</div>
               </div>
-              <a href="https://notes-login-o6tv.onrender.com">
-              <div><button class="btn">Open</button></div>
-              </a>
+              <a class="btn" href="https://notes-login-o6tv.onrender.com">Open ↗</a>
             </article>
             
           </div>
@@ -292,8 +436,8 @@
       </section>
 
       <footer>
-        <small>Made with AI — Johnny Chang</small>
-        <h5>Prompt engineering skill</h5>
+        <small>Designed and built by Johnny Chang</small>
+        <h5>Software Developer · 2026</h5>
       </footer>
 
     </main>
@@ -316,7 +460,6 @@
     // Simple interactions: theme toggle, typing, skill bars, contact form, resume modal
     const root = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');
-    const typedEl = document.getElementById('typed');
     const bars = document.querySelectorAll('.skills .bar > i');
     const contactForm = document.getElementById('contactForm');
     const toast = document.getElementById('toast');
@@ -336,24 +479,6 @@
       localStorage.setItem('theme', next);
       themeToggle.setAttribute('aria-pressed', next === 'dark');
     });
-
-    // typing effect
-    const phrases = ['a Front-end Developer','a UI enthusiast','Johnny'];
-    let pIdx = 0, i = 0, forward = true;
-    function tick(){
-      const txt = phrases[pIdx];
-      if(forward){
-        i++;
-        typedEl.textContent = txt.slice(0,i);
-        if(i === txt.length){forward=false; setTimeout(tick,1000);return}
-      } else {
-        i--;
-        typedEl.textContent = txt.slice(0,i);
-        if(i === 0){forward=true; pIdx=(pIdx+1)%phrases.length}
-      }
-      setTimeout(tick, 90);
-    }
-    tick();
 
     // animate skills after load
     window.addEventListener('load', ()=>{

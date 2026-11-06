@@ -1,232 +1,539 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8" />
-  <title>Today's Activities</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f5f2">
+  <title>My Tasks — Johnny Chang</title>
   <style>
-    /* ===== RESET & BASE ===== */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root {
+      color-scheme: light;
+      --page: #f3f5f2;
+      --surface: #fff;
+      --surface-soft: #f7f8f6;
+      --text: #1c2b2a;
+      --muted: #788480;
+      --line: #e7ece8;
+      --accent: #527b48;
+      --accent-dark: #3d6036;
+      --lime: #c7f27c;
+      --danger: #b94a48;
+      --shadow: 0 24px 70px rgba(35, 57, 45, .09);
     }
 
+    * { box-sizing: border-box; }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%);
       min-height: 100vh;
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+      background:
+        radial-gradient(ellipse at 12% 0%, rgba(199, 242, 124, .25), transparent 35rem),
+        var(--page);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+    button { color: inherit; }
+
+    .app { width: min(100%, 760px); margin: 0 auto; }
+
+    .topbar {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 2rem;
+      justify-content: space-between;
+      margin-bottom: 3.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .65rem;
+      color: var(--text);
+      font-size: .92rem;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 2rem;
+      height: 2rem;
+      place-items: center;
+      border-radius: 10px;
+      background: var(--lime);
+      color: #23351c;
+    }
+
+    .back-link {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .back-link:hover { color: var(--accent-dark); }
+
+    .eyebrow {
+      margin: 0 0 .7rem;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 750;
+      letter-spacing: .13em;
+      text-transform: uppercase;
     }
 
     h1 {
-      color: #339668;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 1.5rem;
-      padding: 1.5rem 3rem;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-      margin-bottom: 2rem;
+      margin: 0;
+      font-size: clamp(2.4rem, 8vw, 4rem);
+      letter-spacing: -.065em;
+      line-height: 1;
     }
 
-    /* ===== HOME BUTTON ===== */
-    .home-btn {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      background: rgba(255, 255, 255, 0.15);
-      color: #339668;
-      font-weight: 600;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 50px;
-      padding: 0.6rem 1.5rem;
-      text-decoration: none;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    .subtitle {
+      margin: 1rem 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+      line-height: 1.6;
     }
 
-    .home-btn:hover {
-      background: rgba(255, 255, 255, 0.3);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    .summary {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      margin: 1.8rem 0 1.3rem;
+      color: var(--muted);
+      font-size: .9rem;
     }
 
-    /* ===== CARD ===== */
-    .card {
-      background: rgba(255, 255, 255, 0.25);
-      backdrop-filter: blur(10px);
-      border-radius: 1rem;
-      padding: 2rem;
+    .summary strong { color: var(--text); font-size: 1rem; }
+    .summary-dot { width: 4px; height: 4px; border-radius: 50%; background: #b5c0ba; }
+
+    .panel {
+      padding: clamp(1.1rem, 4vw, 1.6rem);
+      border: 1px solid rgba(255,255,255,.9);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .form-title { margin: 0 0 1rem; font-size: 1.05rem; letter-spacing: -.02em; }
+
+    .task-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 145px auto;
+      align-items: end;
+      gap: .65rem;
+    }
+
+    .field { display: grid; gap: .45rem; }
+    .field label { color: var(--muted); font-size: .78rem; font-weight: 650; }
+
+    .field input, .field select {
       width: 100%;
-      max-width: 600px;
-      margin: 1rem auto;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-      color: #333;
+      min-height: 48px;
+      padding: .7rem .8rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      outline: none;
+      background: var(--surface-soft);
+      color: var(--text);
+      transition: border-color .2s, box-shadow .2s;
     }
 
-    h2 {
-      color: #333;
+    .field input:focus, .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(82, 123, 72, .12);
+    }
+
+    .primary-button {
+      min-height: 48px;
+      padding: .7rem 1rem;
+      border: 0;
+      border-radius: 12px;
+      background: var(--text);
+      color: #fff;
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 700;
+      transition: transform .18s, background .18s;
+    }
+    .primary-button:hover { transform: translateY(-1px); background: var(--accent-dark); }
+
+    .message { min-height: 1.25rem; margin: .65rem 0 0; color: var(--danger); font-size: .85rem; }
+    .message:empty { min-height: 0; }
+
+    .list-panel { margin-top: 1.2rem; }
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
       margin-bottom: 1rem;
     }
+    .list-header h2 { margin: 0; font-size: 1.1rem; letter-spacing: -.03em; }
 
-    input,
-    select,
-    button {
-      padding: 0.6rem;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 0.5rem;
-      margin-top: 0.5rem;
-      font-size: 1rem;
-    }
-
-    button {
-      background-color: #4b6cb7;
-      color: white;
-      font-weight: bold;
+    .filters { display: flex; gap: .25rem; padding: .25rem; border-radius: 11px; background: var(--surface-soft); }
+    .filter-button {
+      padding: .45rem .7rem;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
       cursor: pointer;
-      border: none;
-      transition: 0.3s ease;
+      font-size: .78rem;
+      font-weight: 650;
     }
+    .filter-button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 2px 6px rgba(0,0,0,.06); }
 
-    button:hover {
-      background-color: #182848;
-      transform: translateY(-2px);
-    }
-
-    .error {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: 0.5rem;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      margin: 0.6rem 0;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      background: rgba(255, 255, 255, 0.3);
-      display: flex;
-      justify-content: space-between;
+    .task-list { display: grid; gap: .6rem; margin: 0; padding: 0; list-style: none; }
+    .task-item {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
       align-items: center;
-      transition: 0.3s ease;
+      gap: .8rem;
+      min-height: 66px;
+      padding: .75rem .85rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--surface);
+      animation: appear .22s ease-out;
     }
 
-    li:hover {
-      background: rgba(255, 255, 255, 0.5);
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .completed {
-      text-decoration: line-through;
-      color: gray;
-      opacity: 0.7;
+    .task-check {
+      width: 19px;
+      height: 19px;
+      margin: 0;
+      accent-color: var(--accent);
+      cursor: pointer;
     }
 
-    #taskList {
-      min-height: 120px;
+    .task-title { overflow-wrap: anywhere; font-size: .94rem; font-weight: 650; }
+    .task-item.is-complete .task-title { color: var(--muted); text-decoration: line-through; }
+
+    .priority {
+      padding: .3rem .55rem;
+      border-radius: 999px;
+      background: #f0f3ef;
+      color: #66736b;
+      font-size: .72rem;
+      font-weight: 700;
+    }
+    .priority-high { background: #fff0ed; color: #b34f3e; }
+    .priority-medium { background: #fff7df; color: #96722b; }
+    .priority-low { background: #edf6e8; color: #547a46; }
+
+    .icon-button {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #8b9690;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .icon-button:hover { background: #fff0ed; color: var(--danger); }
+
+    .empty-state {
+      padding: 2.5rem 1rem;
+      border: 1px dashed #dce4dd;
+      border-radius: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+    .empty-icon { margin-bottom: .6rem; font-size: 1.7rem; }
+    .empty-state strong { display: block; margin-bottom: .25rem; color: var(--text); }
+
+    .list-actions { display: flex; justify-content: space-between; gap: 1rem; margin-top: 1rem; }
+    .text-button {
+      padding: .45rem 0;
+      border: 0;
+      background: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: .8rem;
+      font-weight: 650;
+    }
+    .text-button:hover:not(:disabled) { color: var(--accent-dark); }
+    .text-button:disabled { cursor: default; opacity: .45; }
+
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(82, 123, 72, .35);
+      outline-offset: 3px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1.2rem .8rem 3rem; }
+      .topbar { margin-bottom: 2.6rem; }
+      .task-form { grid-template-columns: 1fr 1fr; }
+      .field:first-child { grid-column: 1 / -1; }
+      .primary-button { grid-column: 1 / -1; }
+      .list-header { align-items: flex-start; flex-direction: column; }
+      .filters { width: 100%; }
+      .filter-button { flex: 1; }
+      .task-item { grid-template-columns: auto minmax(0, 1fr) auto; gap: .65rem; }
+      .priority { grid-column: 2; grid-row: 2; justify-self: start; }
+      .icon-button { grid-column: 3; grid-row: 1 / span 2; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
   </style>
 </head>
 
 <body>
-  <a href="index.html" class="home-btn">🏠 Home</a>
-  <h1>Today's Activities!</h1>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">✓</span> Johnny's workspace</a>
+      <a class="back-link" href="index.html">← Back to portfolio</a>
+    </header>
 
-  <section class="card">
-    <h2>What to do?</h2>
-    <form id="taskForm">
-      <label>
-        Task Title:
-        <input id="taskTitle" name="title" required minlength="4" placeholder="e.g. Go for a walk!">
-      </label>
+    <section aria-labelledby="pageTitle">
+      <p class="eyebrow">A little progress, every day</p>
+      <h1 id="pageTitle">My tasks<span aria-hidden="true">.</span></h1>
+      <p class="subtitle">Keep the important things moving. One task at a time.</p>
+      <div class="summary" aria-live="polite">
+        <strong id="remainingCount">0</strong><span id="remainingLabel">tasks left</span>
+        <span class="summary-dot" aria-hidden="true"></span>
+        <span id="completedCount">0 completed</span>
+      </div>
+    </section>
 
-      <label>
-        Priority:
-        <select name="priority" id="taskPriority">
-          <option value="">Select priority</option>
-          <option>Low</option>
-          <option>Medium</option>
-          <option>High</option>
-        </select>
-      </label>
+    <section class="panel" aria-labelledby="addHeading">
+      <h2 class="form-title" id="addHeading">Add a task</h2>
+      <form class="task-form" id="taskForm">
+        <div class="field">
+          <label for="taskTitle">Task</label>
+          <input id="taskTitle" name="title" required minlength="4" maxlength="120" placeholder="What would you like to get done?" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="taskPriority">Priority</label>
+          <select id="taskPriority" name="priority" required>
+            <option value="" selected disabled>Choose one</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+        <button class="primary-button" type="submit">Add task <span aria-hidden="true">+</span></button>
+      </form>
+      <p class="message" id="formMessage" role="status"></p>
+    </section>
 
-      <button type="submit">Add task</button>
-      <p id="formError" class="error"></p>
-    </form>
-  </section>
-
-  <section class="card">
-    <h2>These need to be done!</h2>
-    <ul id="taskList"></ul>
-    <button id="clearTasks">Clear All</button>
-  </section>
+    <section class="panel list-panel" aria-labelledby="listHeading">
+      <div class="list-header">
+        <h2 id="listHeading">Your list</h2>
+        <div class="filters" role="group" aria-label="Filter tasks">
+          <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All</button>
+          <button class="filter-button" type="button" data-filter="active" aria-pressed="false">Active</button>
+          <button class="filter-button" type="button" data-filter="completed" aria-pressed="false">Completed</button>
+        </div>
+      </div>
+      <ul class="task-list" id="taskList" aria-live="polite"></ul>
+      <div class="list-actions">
+        <button class="text-button" id="clearCompleted" type="button">Clear completed</button>
+        <button class="text-button" id="clearAll" type="button">Clear all tasks</button>
+      </div>
+    </section>
+  </main>
 
   <script>
+    const STORAGE_KEY = "johnny-todo-tasks";
     const form = document.getElementById("taskForm");
     const titleInput = document.getElementById("taskTitle");
     const prioritySelect = document.getElementById("taskPriority");
     const taskList = document.getElementById("taskList");
-    const clearBtn = document.getElementById("clearTasks");
-    const errorP = document.getElementById("formError");
-    let tasks = [];
+    const message = document.getElementById("formMessage");
+    const remainingCount = document.getElementById("remainingCount");
+    const remainingLabel = document.getElementById("remainingLabel");
+    const completedCount = document.getElementById("completedCount");
+    const clearCompletedButton = document.getElementById("clearCompleted");
+    const clearAllButton = document.getElementById("clearAll");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    let activeFilter = "all";
+    let tasks = loadTasks();
 
-    function setError(msg = "") {
-      errorP.textContent = msg;
+    function loadTasks() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (!stored) return [];
+
+      try {
+        const parsed = JSON.parse(stored);
+        if (!Array.isArray(parsed)) throw new TypeError("Saved tasks must be a list.");
+        return parsed.filter(task =>
+          task &&
+          typeof task.id === "string" &&
+          typeof task.title === "string" &&
+          typeof task.priority === "string" &&
+          typeof task.completed === "boolean"
+        );
+      } catch (error) {
+        console.error("Could not read saved tasks.", error);
+        message.textContent = "Saved tasks could not be loaded. Add a task to start a new list.";
+        return [];
+      }
+    }
+
+    function saveTasks() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+        message.textContent = "";
+      } catch (error) {
+        console.error("Could not save tasks.", error);
+        message.textContent = "Your changes could not be saved in this browser.";
+      }
+    }
+
+    function updateSummary() {
+      const remaining = tasks.filter(task => !task.completed).length;
+      const completed = tasks.length - remaining;
+      remainingCount.textContent = remaining;
+      remainingLabel.textContent = remaining === 1 ? "task left" : "tasks left";
+      completedCount.textContent = `${completed} completed`;
+      clearCompletedButton.disabled = completed === 0;
+      clearAllButton.disabled = tasks.length === 0;
     }
 
     function renderTasks() {
-      taskList.textContent = "";
-      const frag = document.createDocumentFragment();
-      tasks.forEach((task, i) => {
-        const li = document.createElement("li");
-        li.dataset.index = i;
-        li.textContent = `${task.title} (${task.priority})`;
-        if (task.completed) li.classList.add("completed");
-        frag.append(li);
+      taskList.replaceChildren();
+      const visibleTasks = tasks.filter(task => {
+        if (activeFilter === "active") return !task.completed;
+        if (activeFilter === "completed") return task.completed;
+        return true;
       });
-      taskList.append(frag);
+
+      if (visibleTasks.length === 0) {
+        const empty = document.createElement("li");
+        empty.className = "empty-state";
+        const icon = document.createElement("div");
+        icon.className = "empty-icon";
+        icon.setAttribute("aria-hidden", "true");
+        icon.textContent = activeFilter === "completed" ? "✦" : "☀";
+        const title = document.createElement("strong");
+        title.textContent = activeFilter === "completed" ? "Nothing completed yet" : activeFilter === "active" ? "All caught up!" : "A fresh start";
+        const detail = document.createElement("span");
+        detail.textContent = activeFilter === "completed" ? "Finished tasks will show up here." : activeFilter === "active" ? "There are no tasks left to do." : "Add a task above to get your day going.";
+        empty.append(icon, title, detail);
+        taskList.append(empty);
+      } else {
+        const fragment = document.createDocumentFragment();
+        visibleTasks.forEach(task => {
+          const item = document.createElement("li");
+          item.className = `task-item${task.completed ? " is-complete" : ""}`;
+
+          const checkbox = document.createElement("input");
+          checkbox.className = "task-check";
+          checkbox.type = "checkbox";
+          checkbox.checked = task.completed;
+          checkbox.dataset.id = task.id;
+          checkbox.setAttribute("aria-label", `${task.completed ? "Mark as active" : "Complete"}: ${task.title}`);
+
+          const title = document.createElement("span");
+          title.className = "task-title";
+          title.textContent = task.title;
+
+          const priority = document.createElement("span");
+          priority.className = `priority priority-${task.priority.toLowerCase()}`;
+          priority.textContent = task.priority;
+
+          const remove = document.createElement("button");
+          remove.className = "icon-button";
+          remove.type = "button";
+          remove.dataset.removeId = task.id;
+          remove.setAttribute("aria-label", `Delete ${task.title}`);
+          remove.title = "Delete task";
+          remove.textContent = "×";
+
+          item.append(checkbox, title, priority, remove);
+          fragment.append(item);
+        });
+        taskList.append(fragment);
+      }
+
+      updateSummary();
     }
 
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      setError("");
+    form.addEventListener("submit", event => {
+      event.preventDefault();
       const title = titleInput.value.trim();
-      const priority = prioritySelect.value.trim();
+      const priority = prioritySelect.value;
 
       if (title.length < 4) {
-        setError("Title must be at least 4 characters.");
+        message.textContent = "Task titles must be at least 4 characters.";
         titleInput.focus();
         return;
       }
       if (!priority) {
-        setError("Please select a priority.");
+        message.textContent = "Choose a priority for your task.";
         prioritySelect.focus();
         return;
       }
 
-      tasks.push({ title, priority, completed: false });
+      tasks.unshift({
+        id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+        title,
+        priority,
+        completed: false
+      });
       form.reset();
+      activeFilter = "all";
+      updateFilterButtons();
+      saveTasks();
+      renderTasks();
+      titleInput.focus();
+    });
+
+    taskList.addEventListener("change", event => {
+      if (!event.target.matches(".task-check")) return;
+      const task = tasks.find(item => item.id === event.target.dataset.id);
+      if (!task) return;
+      task.completed = event.target.checked;
+      saveTasks();
       renderTasks();
     });
 
-    taskList.addEventListener("click", (e) => {
-      const li = e.target.closest("li");
-      if (!li) return;
-      const index = li.dataset.index;
-      if (index === undefined) return;
-      tasks[index].completed = !tasks[index].completed;
+    taskList.addEventListener("click", event => {
+      const removeButton = event.target.closest("[data-remove-id]");
+      if (!removeButton) return;
+      tasks = tasks.filter(task => task.id !== removeButton.dataset.removeId);
+      saveTasks();
       renderTasks();
     });
 
-    clearBtn.addEventListener("click", () => {
+    function updateFilterButtons() {
+      filterButtons.forEach(button => {
+        button.setAttribute("aria-pressed", String(button.dataset.filter === activeFilter));
+      });
+    }
+
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+        updateFilterButtons();
+        renderTasks();
+      });
+    });
+
+    clearCompletedButton.addEventListener("click", () => {
+      tasks = tasks.filter(task => !task.completed);
+      saveTasks();
+      renderTasks();
+    });
+
+    clearAllButton.addEventListener("click", () => {
       tasks = [];
+      saveTasks();
       renderTasks();
     });
 
